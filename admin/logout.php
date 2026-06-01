@@ -33,6 +33,8 @@ if (ini_get("session.use_cookies")) {
 // Détruire la session
 session_destroy();
 
+// Inclusion des constantes pour SITE_URL
+require_once __DIR__ . '/../config/config.php';
+
 // Redirection vers la page de connexion
-header('Location: ../login.php');
-exit;
+redirect(SITE_URL . '/login.php');

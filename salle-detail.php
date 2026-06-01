@@ -11,7 +11,7 @@
  */
 
 // Inclusion des fonctions
-require_once 'includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 
 // ============================================================================
 // RÉCUPÉRATION ET VALIDATION DE L'ID
@@ -44,7 +44,7 @@ $pageDescription = "Découvrez la " . $salle['nom'] . " de l'exposition E-LLUSIO
 $pageActive = "salles";
 
 // Inclusion du header
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ================================================================

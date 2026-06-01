@@ -33,7 +33,7 @@ $pageActive = "accueil";
 $pageAccueil = true; // Active l'affichage des RS dans le footer
 
 // Inclusion du header
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 
 // Récupérer les salles pour les afficher
 $salles = getSalles();

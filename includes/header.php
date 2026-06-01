@@ -60,6 +60,9 @@ $flashMessage = getFlashMessage();
     <!-- Feuille de style principale -->
     <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/style.css">
     
+    <!-- Variable globale JavaScript pour l'URL du site -->
+    <script>window.SITE_URL = '<?php echo SITE_URL; ?>';</script>
+    
     <!-- Préconnexion pour les polices (optimisation performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
 </head>

@@ -288,8 +288,9 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             
             try {
-                // Appel à l'API
-                const response = await fetch(`api/creneaux.php?id_salle=${encodeURIComponent(idSalle)}`);
+                // Appel à l'API (utilise SITE_URL global défini dans header.php)
+                const apiUrl = window.SITE_URL ? `${window.SITE_URL}/api/creneaux.php` : 'api/creneaux.php';
+                const response = await fetch(`${apiUrl}?id_salle=${encodeURIComponent(idSalle)}`);
                 
                 if (!response.ok) {
                     throw new Error('Erreur lors du chargement des créneaux');

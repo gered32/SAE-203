@@ -24,8 +24,7 @@ $pdo = getPDO();
 // Vérifier que l'ID est fourni
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
     $_SESSION['flash_error'] = "ID d'inscription invalide.";
-    header('Location: dashboard.php');
-    exit;
+    redirect(SITE_URL . '/admin/dashboard.php');
 }
 
 $id_inscription = (int)$_GET['id'];
@@ -38,8 +37,7 @@ try {
     
     if (!$inscription) {
         $_SESSION['flash_error'] = "L'inscription n'existe pas.";
-        header('Location: dashboard.php');
-        exit;
+        redirect(SITE_URL . '/admin/dashboard.php');
     }
     
     // Démarrer une transaction
@@ -69,5 +67,4 @@ try {
 }
 
 // Rediriger vers le dashboard
-header('Location: dashboard.php');
-exit;
+redirect(SITE_URL . '/admin/dashboard.php');

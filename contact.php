@@ -13,7 +13,7 @@
  */
 
 // Inclusion des fonctions
-require_once 'includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 
 // Configuration de la page
 $pageTitle = "Contact";
@@ -107,7 +107,7 @@ Ce message a été envoyé via le formulaire de contact du site E-LLUSION.
 }
 
 // Inclusion du header
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ================================================================

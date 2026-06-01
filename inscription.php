@@ -19,7 +19,7 @@
  */
 
 // Inclusion des fonctions
-require_once 'includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 
 // Configuration de la page
 $pageTitle = "Inscription";
@@ -306,7 +306,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 // Inclusion du header
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 ?>
 
 <!-- ================================================================

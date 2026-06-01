@@ -14,7 +14,7 @@
  */
 
 // Inclusion des fonctions
-require_once 'includes/functions.php';
+require_once __DIR__ . '/includes/functions.php';
 
 // ============================================================================
 // RÉCUPÉRATION ET VALIDATION DU TOKEN
@@ -43,7 +43,7 @@ $pageDescription = "Votre inscription à l'exposition E-LLUSION a bien été enr
 $pageActive = "";
 
 // Inclusion du header
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 
 // Formatage des données pour l'affichage
 $dateFormatee = formaterDate($reservation['date_creneau']);

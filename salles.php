@@ -18,7 +18,7 @@ $pageDescription = "Découvrez les 4 salles de l'exposition E-LLUSION : Salle Im
 $pageActive = "salles";
 
 // Inclusion du header (qui inclut functions.php et config.php)
-require_once 'includes/header.php';
+require_once __DIR__ . '/includes/header.php';
 
 // Récupération des salles depuis la base de données
 $salles = getSalles();

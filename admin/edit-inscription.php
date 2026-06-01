@@ -30,8 +30,7 @@ $success = '';
 
 // Vérifier que l'ID est fourni
 if (!isset($_GET['id']) || !is_numeric($_GET['id'])) {
-    header('Location: dashboard.php');
-    exit;
+    redirect(SITE_URL . '/admin/dashboard.php');
 }
 
 $id_inscription = (int)$_GET['id'];
@@ -55,8 +54,7 @@ $inscription = $stmt->fetch();
 
 // Si l'inscription n'existe pas, rediriger
 if (!$inscription) {
-    header('Location: dashboard.php');
-    exit;
+    redirect(SITE_URL . '/admin/dashboard.php');
 }
 
 // ============================================================================

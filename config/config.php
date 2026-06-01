@@ -17,7 +17,14 @@
 // ============================================================================
 // Le site détecte automatiquement s'il est en local ou sur OVH
 
-$estEnLocal = ($_SERVER['HTTP_HOST'] === 'localhost' || strpos($_SERVER['HTTP_HOST'], '127.0.0.1') !== false);
+// Détection robuste de l'environnement local
+$estEnLocal = (
+    in_array($_SERVER['HTTP_HOST'], ['localhost', '127.0.0.1']) ||
+    strpos($_SERVER['HTTP_HOST'], '.local') !== false ||
+    strpos($_SERVER['HTTP_HOST'], '.test') !== false ||
+    strpos($_SERVER['HTTP_HOST'], '192.168.') === 0 ||
+    strpos($_SERVER['HTTP_HOST'], '10.') === 0
+);
 
 // ============================================================================
 // CONFIGURATION DE LA BASE DE DONNÉES
@@ -29,7 +36,13 @@ if ($estEnLocal) {
     define('DB_NAME', 'sae203_ellusion');
     define('DB_USER', 'root');
     define('DB_PASS', '');
-    define('SITE_URL', 'http://localhost/SAE203/SAE-203');
+    
+    // Détection automatique de l'URL du site (compatible tous environnements)
+    $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
+    $scriptPath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+    $scriptPath = rtrim($scriptPath, '/');
+    define('SITE_URL', $protocol . '://' . $_SERVER['HTTP_HOST'] . $scriptPath);
+    
     define('DEBUG_MODE', true);
     
 } else {
