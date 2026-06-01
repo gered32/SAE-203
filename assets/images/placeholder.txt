@@ -1,0 +1,37 @@
+================================================================================
+DOSSIER IMAGES - E-LLUSION
+================================================================================
+
+Ce dossier doit contenir les images suivantes :
+
+CARROUSEL (Page d'accueil) :
+- slide1.jpg (1920x1080 ou 16:9 recommandé)
+- slide2.jpg
+- slide3.jpg
+- slide4.jpg
+
+SALLES :
+- salle-001.jpg (image de la Salle Interactive)
+- salle-002.jpg (image de la Salle Immersive)
+- salle-005.jpg (image de la Salle Contemplative)
+- salle-021.jpg (image de la Salle Expérimentale)
+
+OEUVRES (14 oeuvres au total) :
+- oeuvre-001.jpg à oeuvre-014.jpg
+
+ARRIÈRE-PLAN :
+- bg-movement.jpg (mouvement bleu cyan de la charte graphique)
+
+FAVICON :
+- favicon.ico (16x16 ou 32x32 pixels)
+
+PLACEHOLDER PAR DÉFAUT :
+- placeholder.jpg (image utilisée quand une image est manquante)
+
+================================================================================
+RECOMMANDATIONS :
+- Format : JPEG ou WebP pour les photos, PNG pour les logos/icônes
+- Compression : utiliser un outil comme TinyPNG pour optimiser le poids
+- Dimensions : adapter selon l'usage (carrousel = grand, vignettes = petit)
+- Nommage : garder les noms indiqués pour éviter de modifier le code
+================================================================================
