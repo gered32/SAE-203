@@ -310,14 +310,14 @@ INSERT INTO creneaux (id_salle, date_creneau, heure, places_total) VALUES
 -- ----------------------------------------------------------------------------
 -- Insertion de utilisateur administrateur de test
 -- Email : admin@ellusion.fr
--- Mot de passe : admin123 (hashé avec password_hash)
+-- Mot de passe : usmb.ellusion (hashé avec password_hash)
 -- 
--- IMPORTANT : Le hash ci-dessous correspond à "admin123"
+-- IMPORTANT : Le hash ci-dessous correspond à "usmb.ellusion"
 -- En production, changez ce mot de passe !
 -- ----------------------------------------------------------------------------
 INSERT INTO utilisateurs (email, mot_de_passe, nom, prenom, role, agence) VALUES
 ('admin@ellusion.fr', 
- '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 
+ '$2y$10$Rh4UqUWdBgn6bfgADkz3d.HDci8h8qMf2pGuVZbLUTk2NJ1CYxu36', 
  'Administrateur', 
  'E-LLUSION', 
  'admin', 
