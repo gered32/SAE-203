@@ -126,6 +126,9 @@ require_once __DIR__ . '/../includes/header.php';
         <p>Bienvenue, <?php echo sanitize($_SESSION['user_prenom'] . ' ' . $_SESSION['user_nom']); ?></p>
     </div>
     <div class="admin-actions">
+        <a href="parametres.php" class="btn btn-secondary">
+            ⚙️ Paramètres
+        </a>
         <a href="export-csv.php" class="btn btn-primary">
             Exporter CSV
         </a>
@@ -359,6 +362,9 @@ require_once __DIR__ . '/../includes/header.php';
     <h2>Actions rapides</h2>
     
     <div class="btn-group">
+        <a href="parametres.php" class="btn btn-secondary">
+            ⚙️ Paramètres du compte
+        </a>
         <a href="export-csv.php" class="btn btn-primary">
             Télécharger le tableur CSV
         </a>
