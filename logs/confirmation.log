@@ -45,3 +45,50 @@ CORPS DU MESSAGE :
     
 ================================================================================
 
+
+================================================================================
+DATE : 2026-06-01 13:14:32
+================================================================================
+DESTINATAIRE : vermotgauchytitouan@gmail.com
+SUJET : Confirmation de réservation - E-LLUSION
+--------------------------------------------------------------------------------
+CORPS DU MESSAGE :
+
+    <html>
+    <head>
+        <meta charset='UTF-8'>
+        <title>Confirmation de réservation - E-LLUSION</title>
+    </head>
+    <body style='font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;'>
+        <h1 style='color: #00bbaa;'>E-LLUSION</h1>
+        <h2>Confirmation de votre réservation</h2>
+        
+        <p>Bonjour vgf ffg,</p>
+        
+        <p>Votre inscription à l'exposition E-LLUSION a bien été enregistrée.</p>
+        
+        <h3 style='color: #3ce8d7;'>Récapitulatif :</h3>
+        <ul>
+            <li><strong>Salle :</strong> 002 - Salle Immersive</li>
+            <li><strong>Date :</strong> Jeudi 18 juin 2026</li>
+            <li><strong>Heure :</strong> 18h</li>
+            <li><strong>Nombre de personnes :</strong> 6</li>
+            <li><strong>Participation au buffet :</strong> Oui</li>
+        </ul>
+        
+        <h3 style='color: #3ce8d7;'>Modifier ou annuler votre réservation</h3>
+        <p>Pour modifier ou annuler votre réservation, cliquez sur le lien ci-dessous :</p>
+        <p><a href='http://localhost/SAE_203/SAE-203/ma-reservation.php?token=a798713ca9d34fdda31848cd97365957a309358af3ee5cacfd63d12773916bb7' style='color: #00bbaa;'>http://localhost/SAE_203/SAE-203/ma-reservation.php?token=a798713ca9d34fdda31848cd97365957a309358af3ee5cacfd63d12773916bb7</a></p>
+        
+        <p style='color: #af0000;'><strong>Conservez précieusement ce lien !</strong> Il est unique et vous permet de gérer votre réservation.</p>
+        
+        <hr>
+        <p style='font-size: 12px; color: #666;'>
+            Cet email a été envoyé automatiquement par le système de réservation E-LLUSION.<br>
+            Ne répondez pas à cet email.
+        </p>
+    </body>
+    </html>
+    
+================================================================================
+

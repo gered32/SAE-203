@@ -18,7 +18,7 @@
                 <h3 class="footer-title">Suivez-nous</h3>
                 <ul class="social-list">
                     <li>
-                        <a href="https://www.instagram.com/mmi_chambery/" 
+                        <a href="https://www.instagram.com/mmichambery/" 
                            target="_blank" 
                            rel="noopener noreferrer"
                            aria-label="Suivez MMI Chambéry sur Instagram (nouvelle fenêtre)">
@@ -32,7 +32,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="https://www.iut-acy.univ-smb.fr/mmi/" 
+                        <a href="https://www.univ-smb.fr/" 
                            target="_blank" 
                            rel="noopener noreferrer"
                            aria-label="Visitez le site MMI Chambéry (nouvelle fenêtre)">
