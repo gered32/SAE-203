@@ -68,7 +68,7 @@ define('DB_CHARSET', 'utf8mb4');
 define('SITE_NAME', 'E-LLUSION');
 
 // Email du référent du projet (affiché dans le formulaire d'inscription)
-define('EMAIL_REFERENT', 'referent@univ-smb.fr');
+define('EMAIL_REFERENT', 'francois.piranda@univ-smb.fr');
 
 // Capacité maximale par créneau (jauge)
 define('JAUGE_MAX', 12);
