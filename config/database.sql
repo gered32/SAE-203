@@ -1,329 +1,318 @@
--- ============================================================================
--- SAE203 E-LLUSION - Script de création de la base de données
--- BUT MMI 1ère année - Compétence "Développer"
--- ============================================================================
--- Ce fichier contient la structure complète de la base de données ainsi que
--- les données initiales nécessaires au fonctionnement du site.
--- 
--- INSTRUCTIONS D'UTILISATION :
--- 1. Ouvrir phpMyAdmin
--- 2. Créer une nouvelle base de données nommée "sae203_ellusion"
--- 3. Sélectionner cette base de données
--- 4. Aller dans l'onglet "Importer"
--- 5. Sélectionner ce fichier et exécuter
--- ============================================================================
+-- MariaDB dump 10.19  Distrib 10.4.32-MariaDB, for Win64 (AMD64)
+--
+-- Host: localhost    Database: sae203_ellusion
+-- ------------------------------------------------------
+-- Server version	10.4.32-MariaDB
 
--- Définir le charset par défaut
-SET NAMES utf8mb4;
-SET CHARACTER SET utf8mb4;
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+/*!40103 SET @OLD_TIME_ZONE=@@TIME_ZONE */;
+/*!40103 SET TIME_ZONE='+00:00' */;
+/*!40014 SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0 */;
+/*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
+/*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
+/*!40111 SET @OLD_SQL_NOTES=@@SQL_NOTES, SQL_NOTES=0 */;
 
--- ============================================================================
--- CRÉATION DES TABLES
--- ============================================================================
+--
+-- Table structure for table `categories`
+--
 
--- ----------------------------------------------------------------------------
--- Table : salles
--- Description : Contient les 4 salles de l'exposition E-LLUSION
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS salles (
-    id_salle INT AUTO_INCREMENT PRIMARY KEY,
-    numero VARCHAR(10) NOT NULL UNIQUE COMMENT 'Numéro de la salle (ex: 002, 001, 005, 021)',
-    nom VARCHAR(100) NOT NULL COMMENT 'Nom descriptif de la salle',
-    description TEXT COMMENT 'Description détaillée de la salle',
-    capacite_max INT NOT NULL DEFAULT 12 COMMENT 'Capacité maximale par créneau',
-    image VARCHAR(255) DEFAULT 'placeholder.jpg' COMMENT 'Chemin vers image de la salle'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `categories`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `categories` (
+  `id_categorie` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL COMMENT 'Nom de la catégorie',
+  `buffet_actif` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = accès buffet autorisé, 0 = non autorisé',
+  PRIMARY KEY (`id_categorie`),
+  UNIQUE KEY `nom` (`nom`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------------------------------------------------------
--- Table : oeuvres
--- Description : Œuvres exposées dans chaque salle (4 par salle, sauf 021 = 2)
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS oeuvres (
-    id_oeuvre INT AUTO_INCREMENT PRIMARY KEY,
-    id_salle INT NOT NULL COMMENT 'Clé étrangère vers la salle',
-    titre VARCHAR(150) NOT NULL COMMENT 'Titre de oeuvre',
-    description TEXT COMMENT 'Description de oeuvre',
-    artiste VARCHAR(100) NOT NULL COMMENT 'Nom de artiste',
-    image VARCHAR(255) DEFAULT 'placeholder.jpg' COMMENT 'Chemin vers image de oeuvre',
-    CONSTRAINT fk_oeuvre_salle FOREIGN KEY (id_salle) 
-        REFERENCES salles(id_salle) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Dumping data for table `categories`
+--
 
--- ----------------------------------------------------------------------------
--- Table : creneaux
--- Description : Créneaux horaires disponibles pour chaque salle
--- 14 créneaux × 4 salles = 56 créneaux au total
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS creneaux (
-    id_creneau INT AUTO_INCREMENT PRIMARY KEY,
-    id_salle INT NOT NULL COMMENT 'Clé étrangère vers la salle',
-    date_creneau DATE NOT NULL COMMENT 'Date du créneau',
-    heure TIME NOT NULL COMMENT 'Heure de début du créneau',
-    places_total INT NOT NULL DEFAULT 12 COMMENT 'Nombre total de places disponibles',
-    CONSTRAINT fk_creneau_salle FOREIGN KEY (id_salle) 
-        REFERENCES salles(id_salle) ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE KEY unique_creneau (id_salle, date_creneau, heure)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+LOCK TABLES `categories` WRITE;
+/*!40000 ALTER TABLE `categories` DISABLE KEYS */;
+INSERT INTO `categories` (`id_categorie`, `nom`, `buffet_actif`) VALUES (1,'Enseignant·e',1);
+INSERT INTO `categories` (`id_categorie`, `nom`, `buffet_actif`) VALUES (2,'Étudiant·e MMI 2 ou 3',0);
+INSERT INTO `categories` (`id_categorie`, `nom`, `buffet_actif`) VALUES (3,'Personnel USMB',1);
+INSERT INTO `categories` (`id_categorie`, `nom`, `buffet_actif`) VALUES (4,'Professionnels/partenaires',1);
+INSERT INTO `categories` (`id_categorie`, `nom`, `buffet_actif`) VALUES (5,'Visiteur·se extérieur',1);
+/*!40000 ALTER TABLE `categories` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- ----------------------------------------------------------------------------
--- Table : categories
--- Description : Catégories de visiteurs avec droit au buffet ou non
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS categories (
-    id_categorie INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL UNIQUE COMMENT 'Nom de la catégorie',
-    buffet_actif TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1 = accès buffet autorisé, 0 = non autorisé'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Table structure for table `creneaux`
+--
 
--- ----------------------------------------------------------------------------
--- Table : inscriptions
--- Description : Inscriptions des visiteurs à exposition
--- Le token permet de modifier/supprimer sa réservation sans compte
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS inscriptions (
-    id_inscription INT AUTO_INCREMENT PRIMARY KEY,
-    nom VARCHAR(100) NOT NULL COMMENT 'Nom du visiteur',
-    prenom VARCHAR(100) NOT NULL COMMENT 'Prénom du visiteur',
-    email VARCHAR(255) NOT NULL COMMENT 'Email du visiteur',
-    id_categorie INT NOT NULL COMMENT 'Clé étrangère vers la catégorie',
-    nb_personnes INT NOT NULL DEFAULT 1 COMMENT 'Nombre de personnes (1-12)',
-    buffet_jeudi TINYINT(1) NOT NULL DEFAULT 0 COMMENT '1 = participe au buffet, 0 = non',
-    token VARCHAR(64) NOT NULL UNIQUE COMMENT 'Token unique pour modification/suppression',
-    date_inscription DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT 'Date et heure de inscription',
-    email_referent VARCHAR(255) COMMENT 'Email du référent du projet',
-    CONSTRAINT fk_inscription_categorie FOREIGN KEY (id_categorie) 
-        REFERENCES categories(id_categorie) ON DELETE RESTRICT ON UPDATE CASCADE,
-    CONSTRAINT chk_nb_personnes CHECK (nb_personnes >= 1 AND nb_personnes <= 12)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+DROP TABLE IF EXISTS `creneaux`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `creneaux` (
+  `id_creneau` int(11) NOT NULL AUTO_INCREMENT,
+  `id_salle` int(11) NOT NULL COMMENT 'Clé étrangère vers la salle',
+  `date_creneau` date NOT NULL COMMENT 'Date du créneau',
+  `heure` time NOT NULL COMMENT 'Heure de début du créneau',
+  `places_total` int(11) NOT NULL DEFAULT 12 COMMENT 'Nombre total de places disponibles',
+  PRIMARY KEY (`id_creneau`),
+  UNIQUE KEY `unique_creneau` (`id_salle`,`date_creneau`,`heure`),
+  KEY `idx_creneaux_date` (`date_creneau`),
+  CONSTRAINT `fk_creneau_salle` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------------------------------------------------------
--- Table : reservations (table pivot/association)
--- Description : Lie les inscriptions aux créneaux choisis
--- ON DELETE CASCADE : si inscription est supprimée, les réservations aussi
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS reservations (
-    id_reservation INT AUTO_INCREMENT PRIMARY KEY,
-    id_inscription INT NOT NULL COMMENT 'Clé étrangère vers inscription',
-    id_creneau INT NOT NULL COMMENT 'Clé étrangère vers le créneau',
-    CONSTRAINT fk_reservation_inscription FOREIGN KEY (id_inscription) 
-        REFERENCES inscriptions(id_inscription) ON DELETE CASCADE ON UPDATE CASCADE,
-    CONSTRAINT fk_reservation_creneau FOREIGN KEY (id_creneau) 
-        REFERENCES creneaux(id_creneau) ON DELETE CASCADE ON UPDATE CASCADE,
-    UNIQUE KEY unique_inscription_creneau (id_inscription, id_creneau)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+--
+-- Dumping data for table `creneaux`
+--
 
--- ----------------------------------------------------------------------------
--- Table : utilisateurs
--- Description : Comptes administrateurs et référents pour espace admin
--- Le mot de passe est hashé avec password_hash() de PHP
--- ----------------------------------------------------------------------------
-CREATE TABLE IF NOT EXISTS utilisateurs (
-    id_utilisateur INT AUTO_INCREMENT PRIMARY KEY,
-    email VARCHAR(255) NOT NULL UNIQUE COMMENT 'Email de connexion',
-    mot_de_passe VARCHAR(255) NOT NULL COMMENT 'Mot de passe hashé (password_hash)',
-    nom VARCHAR(100) NOT NULL COMMENT 'Nom de utilisateur',
-    prenom VARCHAR(100) NOT NULL COMMENT 'Prénom de utilisateur',
-    role ENUM('admin', 'referent') NOT NULL DEFAULT 'referent' COMMENT 'Rôle de utilisateur',
-    agence VARCHAR(100) COMMENT 'Agence ou département (optionnel)'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+LOCK TABLES `creneaux` WRITE;
+/*!40000 ALTER TABLE `creneaux` DISABLE KEYS */;
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (1,1,'2026-06-18','15:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (2,1,'2026-06-18','15:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (3,1,'2026-06-18','16:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (4,1,'2026-06-18','16:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (5,1,'2026-06-18','17:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (6,1,'2026-06-18','17:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (7,1,'2026-06-18','18:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (8,1,'2026-06-18','19:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (9,1,'2026-06-18','19:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (10,1,'2026-06-18','20:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (11,1,'2026-06-19','09:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (12,1,'2026-06-19','10:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (13,1,'2026-06-19','10:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (14,1,'2026-06-19','11:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (15,2,'2026-06-18','15:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (16,2,'2026-06-18','15:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (17,2,'2026-06-18','16:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (18,2,'2026-06-18','16:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (19,2,'2026-06-18','17:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (20,2,'2026-06-18','17:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (21,2,'2026-06-18','18:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (22,2,'2026-06-18','19:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (23,2,'2026-06-18','19:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (24,2,'2026-06-18','20:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (25,2,'2026-06-19','09:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (26,2,'2026-06-19','10:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (27,2,'2026-06-19','10:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (28,2,'2026-06-19','11:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (29,3,'2026-06-18','15:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (30,3,'2026-06-18','15:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (31,3,'2026-06-18','16:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (32,3,'2026-06-18','16:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (33,3,'2026-06-18','17:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (34,3,'2026-06-18','17:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (35,3,'2026-06-18','18:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (36,3,'2026-06-18','19:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (37,3,'2026-06-18','19:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (38,3,'2026-06-18','20:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (39,3,'2026-06-19','09:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (40,3,'2026-06-19','10:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (41,3,'2026-06-19','10:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (42,3,'2026-06-19','11:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (43,4,'2026-06-18','15:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (44,4,'2026-06-18','15:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (45,4,'2026-06-18','16:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (46,4,'2026-06-18','16:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (47,4,'2026-06-18','17:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (48,4,'2026-06-18','17:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (49,4,'2026-06-18','18:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (50,4,'2026-06-18','19:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (51,4,'2026-06-18','19:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (52,4,'2026-06-18','20:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (53,4,'2026-06-19','09:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (54,4,'2026-06-19','10:00:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (55,4,'2026-06-19','10:30:00',12);
+INSERT INTO `creneaux` (`id_creneau`, `id_salle`, `date_creneau`, `heure`, `places_total`) VALUES (56,4,'2026-06-19','11:00:00',12);
+/*!40000 ALTER TABLE `creneaux` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- ============================================================================
--- INSERTION DES DONNÉES INITIALES
--- ============================================================================
+--
+-- Table structure for table `inscriptions`
+--
 
--- ----------------------------------------------------------------------------
--- Insertion des 4 salles de exposition
--- ----------------------------------------------------------------------------
-INSERT INTO salles (numero, nom, description, image) VALUES
-('002', 'Salle Immersive', 
- 'Plongez dans un univers sensoriel unique où la lumière, le son et les projections créent une expérience immersive totale. Cette salle vous transporte dans des mondes imaginaires grâce à des installations audiovisuelles de pointe.', 
- 'salle-002.jpg'),
-('001', 'Salle Interactive', 
- 'Devenez acteur de art dans cet espace où chaque mouvement, chaque geste influence les oeuvres qui vous entourent. Capteurs et écrans réactifs répondent à votre présence pour créer une expérience personnalisée et ludique.', 
- 'salle-001.jpg'),
-('005', 'Salle Contemplative', 
- 'Un havre de paix dédié à la réflexion et à la méditation visuelle. Les oeuvres exposées invitent à la contemplation et questionnent notre rapport au temps, à espace et à la technologie dans notre quotidien.', 
- 'salle-005.jpg'),
-('021', 'Salle Expérimentale', 
- 'Laboratoire créatif où les artistes repoussent les limites de art numérique. Découvrez des prototypes et des oeuvres en cours de développement qui préfigurent art de demain.', 
- 'salle-021.jpg');
+DROP TABLE IF EXISTS `inscriptions`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `inscriptions` (
+  `id_inscription` int(11) NOT NULL AUTO_INCREMENT,
+  `nom` varchar(100) NOT NULL COMMENT 'Nom du visiteur',
+  `prenom` varchar(100) NOT NULL COMMENT 'Prénom du visiteur',
+  `email` varchar(255) NOT NULL COMMENT 'Email du visiteur',
+  `id_categorie` int(11) NOT NULL COMMENT 'Clé étrangère vers la catégorie',
+  `nb_personnes` int(11) NOT NULL DEFAULT 1 COMMENT 'Nombre de personnes (1-12)',
+  `buffet_jeudi` tinyint(1) NOT NULL DEFAULT 0 COMMENT '1 = participe au buffet, 0 = non',
+  `token` varchar(64) NOT NULL COMMENT 'Token unique pour modification/suppression',
+  `date_inscription` datetime NOT NULL DEFAULT current_timestamp() COMMENT 'Date et heure de inscription',
+  `email_referent` varchar(255) DEFAULT NULL COMMENT 'Email du référent du projet',
+  PRIMARY KEY (`id_inscription`),
+  UNIQUE KEY `token` (`token`),
+  KEY `fk_inscription_categorie` (`id_categorie`),
+  KEY `idx_inscriptions_token` (`token`),
+  KEY `idx_inscriptions_email` (`email`),
+  CONSTRAINT `fk_inscription_categorie` FOREIGN KEY (`id_categorie`) REFERENCES `categories` (`id_categorie`) ON UPDATE CASCADE,
+  CONSTRAINT `chk_nb_personnes` CHECK (`nb_personnes` >= 1 and `nb_personnes` <= 12)
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ----------------------------------------------------------------------------
--- Insertion des oeuvres (3 par salle 001 et 002, 4 pour salle 005, 2 pour salle 021)
--- ----------------------------------------------------------------------------
+--
+-- Dumping data for table `inscriptions`
+--
 
--- Oeuvres de la Salle 002 (Immersive) - 3 oeuvres
-INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
-((SELECT id_salle FROM salles WHERE numero = '002'), 
- 'Horizon Infini', 
- 'Une projection à 360° qui simule un voyage à travers des paysages oniriques en constante évolution. Les couleurs et les formes se transforment au rythme d une musique ambiante composée spécialement pour oeuvre.',
- 'Marie Dubois', 'oeuvre-001.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '002'), 
- 'Échos Lumineux', 
- 'Installation de tubes LED synchronisés créant des vagues de lumière qui traversent espace. Le visiteur est enveloppé dans un ballet lumineux hypnotique.',
- 'Thomas Laurent', 'oeuvre-002.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '002'), 
- 'Membrane Sonore', 
- 'Un dôme acoustique où chaque son est spatialisé pour créer illusion d être au coeur d un organisme vivant. Les battements cardiaques et respirations deviennent une symphonie immersive.',
- 'Clara Martin', 'oeuvre-003.jpg');
+LOCK TABLES `inscriptions` WRITE;
+/*!40000 ALTER TABLE `inscriptions` DISABLE KEYS */;
+/*!40000 ALTER TABLE `inscriptions` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- Oeuvres de la Salle 001 (Interactive) - 3 oeuvres
-INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
-((SELECT id_salle FROM salles WHERE numero = '001'), 
- 'Miroir de Âme', 
- 'Un écran géant analyse en temps réel les expressions faciales du visiteur et génère un portrait abstrait reflétant ses émotions perçues par intelligence artificielle.',
- 'Sophie Petit', 'oeuvre-005.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '001'), 
- 'Danse des Ombres', 
- 'Votre silhouette projetée sur le mur interagit avec des créatures numériques. Plus vous bougez, plus écosystème virtuel s anime et évolue.',
- 'Antoine Moreau', 'oeuvre-006.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '001'), 
- 'Toile Collective', 
- 'Une fresque numérique collaborative où chaque visiteur peut ajouter sa touche de couleur via une tablette. L oeuvre grandit et se transforme au fil des jours.',
- 'Emma Leroy', 'oeuvre-007.jpg');
+--
+-- Table structure for table `oeuvres`
+--
 
--- Oeuvres de la Salle 005 (Contemplative) - 4 oeuvres
-INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
-((SELECT id_salle FROM salles WHERE numero = '005'), 
- 'Respiration du Monde', 
- 'Une sphère translucide pulse lentement au rythme des données environnementales mondiales en temps réel : qualité de air, température, activité humaine.',
- 'Julie Blanc', 'oeuvre-009.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '005'), 
- 'Temps Suspendu', 
- 'Des horloges déconstruites dont les aiguilles se déplacent selon des algorithmes imprévisibles, questionnant notre perception linéaire du temps.',
- 'Pierre Simon', 'oeuvre-010.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '005'), 
- 'Jardin de Données', 
- 'Des plantes numériques poussent et fanent selon les flux de données Internet. Un jardin virtuel qui reflète activité invisible du monde connecté.',
- 'Camille Durand', 'oeuvre-011.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '005'), 
- 'Silence Numérique', 
- 'Une pièce où le bruit ambiant est capté et transformé en visualisations apaisantes. Plus le silence est profond, plus oeuvre devient lumineuse.',
- 'Léa Fournier', 'oeuvre-012.jpg');
+DROP TABLE IF EXISTS `oeuvres`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `oeuvres` (
+  `id_oeuvre` int(11) NOT NULL AUTO_INCREMENT,
+  `id_salle` int(11) NOT NULL COMMENT 'Clé étrangère vers la salle',
+  `titre` varchar(150) NOT NULL COMMENT 'Titre de oeuvre',
+  `description` text DEFAULT NULL COMMENT 'Description de oeuvre',
+  `artiste` varchar(100) NOT NULL COMMENT 'Nom de artiste',
+  `image` varchar(255) DEFAULT 'placeholder.jpg' COMMENT 'Chemin vers image de oeuvre',
+  PRIMARY KEY (`id_oeuvre`),
+  KEY `fk_oeuvre_salle` (`id_salle`),
+  CONSTRAINT `fk_oeuvre_salle` FOREIGN KEY (`id_salle`) REFERENCES `salles` (`id_salle`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Oeuvres de la Salle 021 (Expérimentale) - 2 oeuvres seulement
-INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
-((SELECT id_salle FROM salles WHERE numero = '021'), 
- 'Prototype Alpha', 
- 'Une intelligence artificielle en apprentissage qui tente de créer de art en temps réel. Observez ses tentatives, ses erreurs et ses surprenantes réussites.',
- 'Collectif IA-Art', 'oeuvre-013.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '021'), 
- 'Frontière Quantique', 
- 'Expérimentation visuelle basée sur les principes de la physique quantique. Les particules virtuelles existent dans plusieurs états simultanés jusqu à observation.',
- 'Dr. Nicolas Fabre', 'oeuvre-014.jpg');
+--
+-- Dumping data for table `oeuvres`
+--
 
--- ----------------------------------------------------------------------------
--- Insertion des catégories de visiteurs
--- buffet_actif = 1 : peut participer au buffet du jeudi
--- buffet_actif = 0 : ne peut pas participer au buffet
--- ----------------------------------------------------------------------------
-INSERT INTO categories (nom, buffet_actif) VALUES
-('Enseignant·e', 1),
-('Étudiant·e MMI 2 ou 3', 0),
-('Personnel USMB', 1),
-('Professionnels/partenaires', 1),
-('Visiteur·se extérieur', 1);
+LOCK TABLES `oeuvres` WRITE;
+/*!40000 ALTER TABLE `oeuvres` DISABLE KEYS */;
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (1,1,'TAPIS ROUGE','TAPIS ROUGE est une installation interactive et immersive qui détourne les codes du prestige pour confronter le spectateur aux réalités sociales invisibles de la production industrielle.\r\nUn tapis rouge physique invite le public à s\'avancer sous des projecteurs de scène. Le mouvement du visiteur contrôle directement une vidéo projetée sur le mur frontal : d\'abord une ambiance de luxe et de privilège puis, à mesure qu\'il avance, les coulisses de la consommation s\'imposent : entrepôts, lignes de production, infrastructures froides.\r\nEn bout de course, l\'image devient grave : pénibilité du travail, insalubrité des usines, épuisement des corps. L\'œuvre révèle que chaque pas vers le succès repose sur une réalité humaine sacrifiée.\r\n','TP 2.1','oeuvre-001.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (2,1,'EN DIRECT','Placez-vous devant l\'écran : une caméra vous filme en direct, à la manière d\'un live TikTok ou Instagram. Des commentaires apparaissent automatiquement, générés selon votre distance à l\'écran et vos expressions faciales détectées par reconnaissance d\'image. Trop proche, trop loin, souriant ou neutre — quoi que vous fassiez, vous serez jugé. En Direct met en scène le jugement social permanent que produisent les réseaux sociaux, et l\'illusion d\'un « like » qui n\'existe que pour mieux nous critiquer.','TP 2.1','oeuvre-002.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (3,1,'AD-HD ( Ad driven human display )','Ad Driven Human Display est une œuvre interactive qui questionne la place de l’humain dans l’économie de l’attention. Face à une interface TikTok, le visiteur fait défiler un flux de contenus promotionnels à l’aide d’un grand rouleau physique. Des pop-up publicitaires apparaissent aléatoirement, l’obligeant à les fermer avec une souris. L’œuvre révèle une illusion contemporaine : nous pensons contrôler ce que nous regardons, alors que nos gestes, notre temps et notre attention sont constamment captés par la publicité.','TP 2.1','oeuvre-003.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (5,2,'Bon profil','L\'œuvre explore la vulnérabilité de notre identité numérique en plaçant le visiteur au cœur d\'une mécanique de désinformation instantanée. Le spectateur est d\'abord invité à prendre une simple photo, pensant capturer un souvenir inoffensif. Cependant, cette image est immédiatement détournée par une intelligence artificielle qui génère un deepfake à son insu. En quelques secondes, le visage du visiteur se retrouve propulsé dans des situations absurdes ou compromettantes et publié sur un faux fil d\'actualité de réseaux sociaux. ','TP 1.2','oeuvre-005.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (6,2,'Antithèse','Antithèse oppose deux visions de la réalité : une vision déformée, influencée par les réseaux sociaux, les chaînes d’information et les contenus biaisés, et une vision plus objective basée sur des faits, des chiffres et l’esprit critique. Grâce à une interaction basée sur la distance du visiteur, l’installation montre que notre perception peut évoluer selon le point de vue adopté. L’œuvre invite ainsi le spectateur à prendre du recul face aux informations qu’il consomme quotidiennement et à questionner la manière dont les médias influencent sa compréhension du réel. ','TP 1.2','oeuvre-006.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (7,2,'Beauté hors du cadre','L\'œuvre \"BEAUTÉ HORS DU CADRE\" plonge le spectateur dans un espace végétal apaisant où un écran géant imite un smartphone. Ce miroir numérique capte le reflet du visiteur et l\'invite à \"swiper\" des vidéos d\'abord familières et agréables. Au fil des défilements, les contenus deviennent angoissants, la lumière s\'assombrit et les sons naturels se déforment pour devenir inquiétants. Le reflet de l\'utilisateur s\'efface alors peu à peu, donnant l\'illusion qu\'il est totalement absorbé par l\'écran. Cette installation interactive offre ainsi une métaphore de la mort numérique. Elle illustre comment notre usage des objets numériques et des réseaux sociaux altère notre perception du réel. s.','TP 1.2','oeuvre-007.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (9,3,'LOTUS','Nous créons une œuvre interactive où la chute d’Alice au pays des merveilles\r\ndans le terrier du lapin devient une expérience sensorielle et participative.\r\nEn jouant du synthétiseur,\r\nnous transformons en temps réel ce que le public voit à l’écran : les notes jouées modifient la vitesse, la forme ou les couleurs de la chute,\r\ncomme si Alice réagissait directement aux sons.','TP 2.2','oeuvre-009.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (10,3,'E-biscus','E-biscus est une œuvre interactive qui permet de mettre en avant les illusions de la société, plus précisément concernant la beauté. Le but global de l\'œuvre est de plonger le spectateur dans un rêve numérique.','TP 2.2','oeuvre-010.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (11,3,'Datura','« Datura » est une installation interactive présentant une forêt de séquoias en 3D, projetée sur un grand écran. Deux zones physiques au sol devant la projection, « Zone Rêve » et « Zone Cauchemar », invitent le spectateur à interagir. Une webcam détecte la répartition des visiteurs entre ces deux zones. Le public, par sa présence physique, vote et influence en temps réel le monde 3.','TP 2.2','oeuvre-011.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (12,3,'Silence Numérique','Une pièce où le bruit ambiant est capté et transformé en visualisations apaisantes. Plus le silence est profond, plus oeuvre devient lumineuse.','Léa Fournier','oeuvre-012.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (13,4,'Community','Community explore la décontextualisation et montre comment une société numérique, miniature de la nôtre, devient une matière malléable. En isolant un geste, un instant ou une réaction, le système transforme un événement aléatoire en intention interprétée, souvent éloignée de la réalité. Dans Community, cette distorsion est amplifiée par le regard des autres, Ce que la personne au commande de la société choisit de monter influence l’ensemble du groupe mais également les personnages du jeu ! Chacun ajuste son comportement en fonction de ce qu’il pense que les autres perçoivent et de ce qui est montré sous un certain point de vue. L’écran devient alors un miroir déformant. En effet, dans le jeu, une image isolée suffit à déclencher des émotions collectives, à modifier l’ambiance générale et à orienter les comportements du groupe, comme si une simple capture définissait soudain une vérité partagée. ','TP 1.1','oeuvre-013.jpg');
+INSERT INTO `oeuvres` (`id_oeuvre`, `id_salle`, `titre`, `description`, `artiste`, `image`) VALUES (14,4,'Distorsion','L’œuvre Distorsion explore l’émancipation de notre identité dans un récit où notre image ne nous appartient plus. Elle montre que, dans l’univers numérique, notre visage devient une matière que les autres peuvent modifier, détourner ou réinventer. Cette transformation imposée crée une version de nous qui échappe à notre contrôle. Dans Distorsion, cette image altérée est ensuite mise en vente, comme un produit parmi d’autres, révélant comment la société de consommation s’approprie jusqu’à notre identité. Le visage devient un objet marchand, façonné par le regard collectif, que chacun peut acheter et  juger. La valeur de cette nouvelle identité dépend alors non plus de nous, mais de la réaction des autres. ','TP 1.1','oeuvre-014.jpg');
+/*!40000 ALTER TABLE `oeuvres` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- ----------------------------------------------------------------------------
--- Insertion des créneaux horaires
--- Jeudi 18/06/2026 : 10 créneaux (15:00 à 20:00)
--- Vendredi 19/06/2026 : 4 créneaux (9:30 à 11:00)
--- Pour chaque salle (4 salles) = 56 créneaux au total
--- ----------------------------------------------------------------------------
+--
+-- Table structure for table `reservations`
+--
 
--- Créneaux pour la Salle 002
-INSERT INTO creneaux (id_salle, date_creneau, heure, places_total) VALUES
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '15:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '15:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '16:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '16:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '17:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '17:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '18:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '19:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '19:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-18', '20:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-19', '09:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-19', '10:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-19', '10:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '002'), '2026-06-19', '11:00:00', 12);
+DROP TABLE IF EXISTS `reservations`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `reservations` (
+  `id_reservation` int(11) NOT NULL AUTO_INCREMENT,
+  `id_inscription` int(11) NOT NULL COMMENT 'Clé étrangère vers inscription',
+  `id_creneau` int(11) NOT NULL COMMENT 'Clé étrangère vers le créneau',
+  PRIMARY KEY (`id_reservation`),
+  UNIQUE KEY `unique_inscription_creneau` (`id_inscription`,`id_creneau`),
+  KEY `idx_reservations_creneau` (`id_creneau`),
+  CONSTRAINT `fk_reservation_creneau` FOREIGN KEY (`id_creneau`) REFERENCES `creneaux` (`id_creneau`) ON DELETE CASCADE ON UPDATE CASCADE,
+  CONSTRAINT `fk_reservation_inscription` FOREIGN KEY (`id_inscription`) REFERENCES `inscriptions` (`id_inscription`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- Créneaux pour la Salle 001
-INSERT INTO creneaux (id_salle, date_creneau, heure, places_total) VALUES
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '15:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '15:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '16:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '16:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '17:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '17:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '18:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '19:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '19:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-18', '20:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-19', '09:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-19', '10:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-19', '10:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '001'), '2026-06-19', '11:00:00', 12);
+--
+-- Dumping data for table `reservations`
+--
 
--- Créneaux pour la Salle 005
-INSERT INTO creneaux (id_salle, date_creneau, heure, places_total) VALUES
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '15:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '15:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '16:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '16:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '17:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '17:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '18:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '19:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '19:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-18', '20:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-19', '09:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-19', '10:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-19', '10:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '005'), '2026-06-19', '11:00:00', 12);
+LOCK TABLES `reservations` WRITE;
+/*!40000 ALTER TABLE `reservations` DISABLE KEYS */;
+/*!40000 ALTER TABLE `reservations` ENABLE KEYS */;
+UNLOCK TABLES;
 
--- Créneaux pour la Salle 021
-INSERT INTO creneaux (id_salle, date_creneau, heure, places_total) VALUES
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '15:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '15:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '16:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '16:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '17:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '17:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '18:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '19:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '19:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-18', '20:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-19', '09:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-19', '10:00:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-19', '10:30:00', 12),
-((SELECT id_salle FROM salles WHERE numero = '021'), '2026-06-19', '11:00:00', 12);
+--
+-- Table structure for table `salles`
+--
 
--- ----------------------------------------------------------------------------
--- Insertion de utilisateur administrateur de test
--- Email : admin@ellusion.fr
--- Mot de passe : usmb.ellusion (hashé avec password_hash)
--- 
--- IMPORTANT : Le hash ci-dessous correspond à "usmb.ellusion"
--- En production, changez ce mot de passe !
--- ----------------------------------------------------------------------------
-INSERT INTO utilisateurs (email, mot_de_passe, nom, prenom, role, agence) VALUES
-('admin@ellusion.fr', 
- '$2y$10$Rh4UqUWdBgn6bfgADkz3d.HDci8h8qMf2pGuVZbLUTk2NJ1CYxu36', 
- 'Administrateur', 
- 'E-LLUSION', 
- 'admin', 
- 'MMI Chambéry');
+DROP TABLE IF EXISTS `salles`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `salles` (
+  `id_salle` int(11) NOT NULL AUTO_INCREMENT,
+  `numero` varchar(10) NOT NULL COMMENT 'Numéro de la salle (ex: 002, 001, 005, 021)',
+  `nom` varchar(100) NOT NULL COMMENT 'Nom descriptif de la salle',
+  `description` text DEFAULT NULL COMMENT 'Description détaillée de la salle',
+  `capacite_max` int(11) NOT NULL DEFAULT 12 COMMENT 'Capacité maximale par créneau',
+  `image` varchar(255) DEFAULT 'placeholder.jpg' COMMENT 'Chemin vers image de la salle',
+  PRIMARY KEY (`id_salle`),
+  UNIQUE KEY `numero` (`numero`)
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
 
--- ============================================================================
--- INDEX POUR OPTIMISATION DES PERFORMANCES
--- ============================================================================
-CREATE INDEX idx_inscriptions_token ON inscriptions(token);
-CREATE INDEX idx_inscriptions_email ON inscriptions(email);
-CREATE INDEX idx_creneaux_date ON creneaux(date_creneau);
-CREATE INDEX idx_reservations_creneau ON reservations(id_creneau);
+--
+-- Dumping data for table `salles`
+--
 
--- ============================================================================
--- FIN DU SCRIPT
--- La base de données sae203_ellusion est maintenant prête à emploi !
--- ============================================================================
+LOCK TABLES `salles` WRITE;
+/*!40000 ALTER TABLE `salles` DISABLE KEYS */;
+INSERT INTO `salles` (`id_salle`, `numero`, `nom`, `description`, `capacite_max`, `image`) VALUES (1,'002','L\'envers du décors ','Comment l\'illusion d\'une société parfaite révèle-t-elle l\'état de la nôtre ? Le thème principal de notre salle est de questionner les façades que la société se construit pour masquer ses contradictions, qu\'il s\'agisse du regard social sur les réseaux, du glamour de la mode ou de la mécanique de la consommation. Les trois œuvres montrent ainsi comment le numérique, en mettant en scène ces illusions, finit par révéler l\'état réel d\'un monde qui se rêve parfait.',12,'salle-002.jpg');
+INSERT INTO `salles` (`id_salle`, `numero`, `nom`, `description`, `capacite_max`, `image`) VALUES (2,'001','Horizon','Comment les objets numériques altèrent-ils notre perception du réel ? Le thème principal de notre salle est : À travers la création de trois œuvres interactives, nous cherchons à explorer la manière dont les technologies influencent notre perception du réel, en transformant notre rapport au corps, à l’image et à l’environnement.',12,'salle-001.jpg');
+INSERT INTO `salles` (`id_salle`, `numero`, `nom`, `description`, `capacite_max`, `image`) VALUES (3,'005','La pépinière','A l\'image de nos rêves, comment le numérique altère t-il notre perception de la réalité. Notre exposition immersive et interactive vous invite à explorer comment le numérique transforme notre perception du monde. Grâce à des œuvres numériques innovantes, vous serez transporté·e dans des univers oniriques où les écrans deviennent des fenêtres vers l’inconscient, et où chaque interaction révèle une nouvelle facette de notre réalité altérée. Entre illusions optiques, expériences sensorielles et récits visuels, venez questionner votre propre perception et découvrir comment la technologie façonne nos rêves… et nos cauchemars. Une expérience à vivre, pas à observer.',12,'salle-005.jpg');
+INSERT INTO `salles` (`id_salle`, `numero`, `nom`, `description`, `capacite_max`, `image`) VALUES (4,'020','Societ-E','Comment le monde numérique modifie‑t‑il et crée‑t‑il une nouvelle réalité ? Le thème principal de notre salle est de questionner l’influence de la société sur nos comportements, mais aussi sur la construction de notre identité et sur la recherche de validation sociale à travers le regard des autres. Les deux œuvres montrent ainsi comment le numérique transforme notre rapport au réel et renforce cette pression.',12,'salle-021.jpg');
+/*!40000 ALTER TABLE `salles` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `utilisateurs`
+--
+
+DROP TABLE IF EXISTS `utilisateurs`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!40101 SET character_set_client = utf8 */;
+CREATE TABLE `utilisateurs` (
+  `id_utilisateur` int(11) NOT NULL AUTO_INCREMENT,
+  `email` varchar(255) NOT NULL COMMENT 'Email de connexion',
+  `mot_de_passe` varchar(255) NOT NULL COMMENT 'Mot de passe hashé (password_hash)',
+  `nom` varchar(100) NOT NULL COMMENT 'Nom de utilisateur',
+  `prenom` varchar(100) NOT NULL COMMENT 'Prénom de utilisateur',
+  `role` enum('admin','referent') NOT NULL DEFAULT 'referent' COMMENT 'Rôle de utilisateur',
+  `agence` varchar(100) DEFAULT NULL COMMENT 'Agence ou département (optionnel)',
+  PRIMARY KEY (`id_utilisateur`),
+  UNIQUE KEY `email` (`email`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `utilisateurs`
+--
+
+LOCK TABLES `utilisateurs` WRITE;
+/*!40000 ALTER TABLE `utilisateurs` DISABLE KEYS */;
+INSERT INTO `utilisateurs` (`id_utilisateur`, `email`, `mot_de_passe`, `nom`, `prenom`, `role`, `agence`) VALUES (1,'admin@ellusion.fr','$2y$10$Kd3opxzMDPbVFb66IXfoVeVfWJXi/zHNEEpkxnAK9wiY/HRuFcHmi','Administrateur','E-LLUSION','admin','MMI Chambéry');
+/*!40000 ALTER TABLE `utilisateurs` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Dumping events for database 'sae203_ellusion'
+--
+
+--
+-- Dumping routines for database 'sae203_ellusion'
+--
+/*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
+
+/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
+/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
+/*!40014 SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS */;
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
+/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
+
+-- Dump completed on 2026-06-01 15:43:20
