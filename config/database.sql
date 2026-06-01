@@ -149,10 +149,10 @@ INSERT INTO salles (numero, nom, description, image) VALUES
  'salle-021.jpg');
 
 -- ----------------------------------------------------------------------------
--- Insertion des oeuvres (4 par salle, sauf salle 021 qui en a 2)
+-- Insertion des oeuvres (3 par salle 001 et 002, 4 pour salle 005, 2 pour salle 021)
 -- ----------------------------------------------------------------------------
 
--- Oeuvres de la Salle 002 (Immersive) - 4 oeuvres
+-- Oeuvres de la Salle 002 (Immersive) - 3 oeuvres
 INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
 ((SELECT id_salle FROM salles WHERE numero = '002'), 
  'Horizon Infini', 
@@ -165,13 +165,9 @@ INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
 ((SELECT id_salle FROM salles WHERE numero = '002'), 
  'Membrane Sonore', 
  'Un dôme acoustique où chaque son est spatialisé pour créer illusion d être au coeur d un organisme vivant. Les battements cardiaques et respirations deviennent une symphonie immersive.',
- 'Clara Martin', 'oeuvre-003.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '002'), 
- 'Particules d Éternité', 
- 'Des milliers de points lumineux flottent dans obscurité, simulant une galaxie en formation. Le visiteur peut marcher au milieu de cette constellation artificielle.',
- 'Lucas Bernard', 'oeuvre-004.jpg');
+ 'Clara Martin', 'oeuvre-003.jpg');
 
--- Oeuvres de la Salle 001 (Interactive) - 4 oeuvres
+-- Oeuvres de la Salle 001 (Interactive) - 3 oeuvres
 INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
 ((SELECT id_salle FROM salles WHERE numero = '001'), 
  'Miroir de Âme', 
@@ -184,11 +180,7 @@ INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
 ((SELECT id_salle FROM salles WHERE numero = '001'), 
  'Toile Collective', 
  'Une fresque numérique collaborative où chaque visiteur peut ajouter sa touche de couleur via une tablette. L oeuvre grandit et se transforme au fil des jours.',
- 'Emma Leroy', 'oeuvre-007.jpg'),
-((SELECT id_salle FROM salles WHERE numero = '001'), 
- 'Gravité Zéro', 
- 'Des objets virtuels flottent dans espace et réagissent aux mouvements des mains du visiteur. Attrapez, lancez, faites rebondir ces formes géométriques colorées.',
- 'Maxime Roux', 'oeuvre-008.jpg');
+ 'Emma Leroy', 'oeuvre-007.jpg');
 
 -- Oeuvres de la Salle 005 (Contemplative) - 4 oeuvres
 INSERT INTO oeuvres (id_salle, titre, description, artiste, image) VALUES
