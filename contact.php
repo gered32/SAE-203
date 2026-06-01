@@ -130,7 +130,7 @@ require_once __DIR__ . '/includes/header.php';
         <div class="info-block">
             <h3>Référent du projet</h3>
             <p>
-                Pour toute question concernant l'exposition E-LLUSION, vous pouvez contacter 
+                Pour toute question concernant l'exposition     E-LLUSION, vous pouvez contacter 
                 le responsable du projet :
             </p>
             <p class="contact-email">
