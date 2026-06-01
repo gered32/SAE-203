@@ -55,7 +55,7 @@ $flashMessage = getFlashMessage();
     <meta name="theme-color" content="#00bbaa">
     
     <!-- Favicon (à remplacer par votre propre favicon) -->
-    <link rel="icon" type="image/x-icon" href="<?php echo SITE_URL; ?>/assets/images/favicon.ico">
+    <link rel="icon" type="image/x-icon" href="<?php echo SITE_URL; ?>./assets/images/favicone.ico">
     
     <!-- Feuille de style principale -->
     <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/style.css">
@@ -65,6 +65,7 @@ $flashMessage = getFlashMessage();
     
     <!-- Préconnexion pour les polices (optimisation performance) -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
+    
 </head>
 <body>
     <!-- Lien d'évitement pour l'accessibilité -->
