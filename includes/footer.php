@@ -56,7 +56,7 @@
                 </p>
                 <p class="footer-credits">
                     Projet réalisé par les étudiants du 
-                    <a href="https://www.iut-acy.univ-smb.fr/mmi/" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.iut-chy.univ-smb.fr/formations/bachelor-universitaire-de-technologie/mmi/" target="_blank" rel="noopener noreferrer">
                         BUT MMI Chambéry
                     </a>
                 </p>
