@@ -103,18 +103,13 @@ require_once __DIR__ . '/includes/header.php';
         <article class="card oeuvre-card">
             <!-- Image de l'œuvre -->
             <img src="<?php echo SITE_URL; ?>/assets/images/<?php echo sanitize($oeuvre['image']); ?>" 
-                 alt="<?php echo sanitize($oeuvre['titre']); ?> par <?php echo sanitize($oeuvre['artiste']); ?>"
+                 alt="<?php echo sanitize($oeuvre['titre']); ?>"
                  class="card-image"
                  loading="lazy">
             
             <div class="card-content">
                 <!-- Titre de l'œuvre -->
                 <h3 class="card-title"><?php echo sanitize($oeuvre['titre']); ?></h3>
-                
-                <!-- Artiste -->
-                <p class="oeuvre-artiste">
-                    <strong>Artiste :</strong> <?php echo sanitize($oeuvre['artiste']); ?>
-                </p>
                 
                 <!-- Description -->
                 <p class="card-description">
@@ -200,12 +195,6 @@ require_once __DIR__ . '/includes/header.php';
         .oeuvres-grid {
             grid-template-columns: repeat(2, 1fr);
         }
-    }
-    
-    .oeuvre-artiste {
-        color: var(--cyan-fonce);
-        font-size: var(--font-size-small);
-        margin-bottom: var(--spacing-sm);
     }
     
     .navigation-salles {
