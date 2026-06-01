@@ -40,6 +40,12 @@ if ($estEnLocal) {
     // Détection automatique de l'URL du site (compatible tous environnements)
     $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off') ? 'https' : 'http';
     $scriptPath = str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME']));
+    
+    // Si on est dans un sous-dossier (admin, api, etc.), remonter au dossier parent
+    if (basename($scriptPath) === 'admin' || basename($scriptPath) === 'api') {
+        $scriptPath = dirname($scriptPath);
+    }
+    
     $scriptPath = rtrim($scriptPath, '/');
     define('SITE_URL', $protocol . '://' . $_SERVER['HTTP_HOST'] . $scriptPath);
     

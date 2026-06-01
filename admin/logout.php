@@ -8,6 +8,9 @@
  * ============================================================================
  */
 
+// Inclusion de la configuration et des fonctions
+require_once __DIR__ . '/../includes/functions.php';
+
 // Démarrer la session si pas déjà fait
 if (session_status() === PHP_SESSION_NONE) {
     session_start();
@@ -33,8 +36,6 @@ if (ini_get("session.use_cookies")) {
 // Détruire la session
 session_destroy();
 
-// Inclusion des constantes pour SITE_URL
-require_once __DIR__ . '/../config/config.php';
-
 // Redirection vers la page de connexion
-redirect(SITE_URL . '/login.php');
+header('Location: ../login.php');
+exit;
