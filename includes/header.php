@@ -54,10 +54,8 @@ $flashMessage = getFlashMessage();
     <!-- Thème couleur pour les navigateurs mobiles -->
     <meta name="theme-color" content="#00bbaa">
     
-    <!-- Favicon (à remplacer par votre propre favicon) -->
-    <link rel="icon" type="image/x-icon" href="<?php echo SITE_URL; ?>./assets/images/favicone.ico">
-    
-    <!-- Feuille de style principale -->
+    <link rel="icon" type="image/x-icon" href="<?php echo SITE_URL; ?>/assets/images/favicone.ico">
+
     <link rel="stylesheet" href="<?php echo SITE_URL; ?>/assets/css/style.css">
     
     <!-- Variable globale JavaScript pour l'URL du site -->
