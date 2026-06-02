@@ -323,10 +323,21 @@ p {
    ============================================================================ */
 .site-main {
     flex: 1;
-    padding: var(--spacing-lg) var(--spacing-md);
+    width: 100%;
+}
+
+/* Conteneur pour le contenu avec largeur max */
+.container {
     max-width: var(--max-width);
     margin: 0 auto;
+    padding: 0 var(--spacing-md);
     width: 100%;
+}
+
+/* Section pleine largeur */
+.full-width-section {
+    width: 100%;
+    padding: var(--spacing-xl) 0;
 }
 
 /* ============================================================================
@@ -406,9 +417,7 @@ p {
     position: relative;
     width: 100%;
     max-width: 100%;
-    margin: var(--spacing-xl) 0;
     overflow: hidden;
-    border-radius: var(--border-radius-lg);
     background: var(--gris-clair);
 }
 
@@ -497,8 +506,6 @@ p {
     text-align: center;
     padding: var(--spacing-xxl) var(--spacing-md);
     background: var(--cyan-clair);
-    border-radius: var(--border-radius-lg);
-    margin: var(--spacing-xl) 0;
 }
 
 .presentation h2 {

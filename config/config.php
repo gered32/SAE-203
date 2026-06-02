@@ -53,12 +53,11 @@ if ($estEnLocal) {
     
 } else {
     // ====== CONFIGURATION OVH (PRODUCTION) ======
-    // À REMPLIR avec vos identifiants OVH quand vous aurez créé la BDD
-    define('DB_HOST', 'VOTRE_SERVEUR_MYSQL.mysql.db');  // Ex: ljtebow.mysql.db
-    define('DB_NAME', 'ljtebow_ellusion');               // Nom de votre BDD sur OVH
-    define('DB_USER', 'ljtebow');                        // Utilisateur MySQL OVH
-    define('DB_PASS', 'VOTRE_MOT_DE_PASSE_MYSQL');       // Mot de passe MySQL OVH
-    define('SITE_URL', 'https://VOTRE_DOMAINE.ovh');     // URL de votre site
+    define('DB_HOST', 'ijtebowcompte16.mysql.db');
+    define('DB_NAME', 'ijtebowcompte16');
+    define('DB_USER', 'IJTEbow-compte16_ovh-43597');
+    define('DB_PASS', 'apm8L27R2026');
+    define('SITE_URL', 'http://ijtebow.cluster024.hosting.ovh.net/compte16');
     define('DEBUG_MODE', false);  // IMPORTANT : false en production !
 }
 

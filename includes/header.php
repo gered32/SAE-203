@@ -146,4 +146,6 @@ $flashMessage = getFlashMessage();
     <!-- ================================================================
          CONTENU PRINCIPAL (début)
          ================================================================ -->
+    <?php if (!isset($noMainTag) || $noMainTag !== true): ?>
     <main id="contenu-principal" class="site-main">
+    <?php endif; ?>
