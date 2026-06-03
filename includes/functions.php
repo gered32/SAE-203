@@ -309,13 +309,13 @@ CORPS DU MESSAGE :
      * Décommentez le code ci-dessous et commentez le code ci-dessus.
      * Assurez-vous que votre serveur est configuré pour l'envoi d'emails.
      * 
-     * $headers = "MIME-Version: 1.0\r\n";
-     * $headers .= "Content-type: text/html; charset=UTF-8\r\n";
-     * $headers .= "From: noreply@e-llusion.fr\r\n";
-     * 
-     * return mail($destinataire, $sujet, $corps, $headers);
-     * =========================================================================
      */
+    $headers = "MIME-Version: 1.0\r\n";
+    $headers .= "Content-type: text/html; charset=UTF-8\r\n";
+    $headers .= "From: noreply@e-llusion.fr\r\n";
+     
+    return mail($destinataire, $sujet, $corps, $headers);
+     
 }
 
 /**
