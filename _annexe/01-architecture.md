@@ -137,7 +137,7 @@ SELECT * FROM salles ORDER BY numero
 |        2 | 001    | Salle Interactive  |           12 |
 |        1 | 002    | Salle Immersive    |           12 |
 |        3 | 005    | Salle Contemplative|           12 |
-|        4 | 021    | Salle Expérimentale|           12 |
+|        4 | 020    | Salle Expérimentale|           12 |
 +----------+--------+--------------------+--------------+
 ```
 

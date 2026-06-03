@@ -246,12 +246,12 @@ INSERT INTO salles (numero, nom, description) VALUES
 
 ### 5.2 Œuvres (14 œuvres)
 
-- Salle 002 : 4 œuvres
-- Salle 001 : 4 œuvres
+- Salle 002 : 3 œuvres
+- Salle 001 : 3 œuvres
 - Salle 005 : 4 œuvres
-- Salle 021 : **2 œuvres** (comme demandé)
+- Salle 020 : **2 œuvres**
 
-### 5.3 Créneaux (56 créneaux)
+### 5.3 Créneaux (48 créneaux)
 
 **Jeudi 18/06/2026 :**
 - 15h00, 15h30, 16h00, 16h30, 17h00, 17h30, 18h00, 19h00, 19h30, 20h00 (10 créneaux)
@@ -259,7 +259,7 @@ INSERT INTO salles (numero, nom, description) VALUES
 **Vendredi 19/06/2026 :**
 - 9h30, 10h00, 10h30, 11h00 (4 créneaux)
 
-**Total : 14 horaires × 4 salles = 56 créneaux**
+**Total : 12 horaires × 4 salles = 48 créneaux**
 
 ### 5.4 Catégories (5 catégories)
 
